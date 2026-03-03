@@ -24,7 +24,7 @@ function processCommand(command) {
 }
 
 function getTodoText(str, regex) {
-    return str.match(regex)[0];
+    return str.match(regex)[0]
 }
 
 // TODO you can do it!
