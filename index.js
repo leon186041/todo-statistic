@@ -12,6 +12,7 @@ function getFiles() {
 }
 
 function processCommand(command) {
+    const regex = /\/\/ TODO .+/;
     switch (command) {
         case 'exit':
             process.exit(0);
