@@ -52,7 +52,7 @@ function processCommand(command) {
                 if (to.indexOf(';') !== -1) {
                     const parseStr = to.split(';');
                     const comData = new Date(parseStr[1]);
-                    if (comData.getDay() >= date.getDay()) {
+                    if (comData >= date) {
                         console.log(to.slice(8));
                     }
                 }
@@ -65,6 +65,9 @@ function processCommand(command) {
             } else if (splittedCommand[1] === 'user') {
                 const userTodo = [...todo].sort(x => compareUser(x))
                 userTodo.forEach((item) => console.log(item));
+            } else if (splittedCommand[1] === 'date') {
+                const dateTodo = [...todo].sort(compareNumeric)
+                dateTodo.forEach((item) => console.log(item));
             }
             break;
         default:
@@ -75,6 +78,22 @@ function processCommand(command) {
 
 function getTodoText(str, regex) {
     return str.match(regex);
+}
+function compareNumeric(a, b) {
+    if (a.indexOf(';') !== -1 && b.indexOf(';') !== -1) {
+        const aDate = new Date(a.split(';')[1]);
+        const bDate = new Date(b.split(';')[1]);
+        if (aDate > bDate) return 1;
+        if (aDate === bDate) return 0;
+        if (aDate < bDate) return -1;
+    }
+    if (b.indexOf(';') !== -1) {
+        return 1;
+
+    } else {
+        return -1;
+    }
+
 }
 
 function compareToExcMark(str) {
