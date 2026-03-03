@@ -24,12 +24,12 @@ function processCommand(command) {
             break;
         case 'show':
             for (const to of todo)
-                console.log(to);
+                console.log(to.slice(8));
             break;
         case 'important':
             for (const to of todo) {
                 if (to.indexOf('!') !== -1) {
-                    console.log(to);
+                    console.log(to.slice(8));
                 }
             }
             break;
@@ -38,14 +38,26 @@ function processCommand(command) {
             for (const to of todo) {
                 if (to.indexOf(';') !== -1) {
                     const parseStr = to.split(';');
-                    if (command.split(' ')[1] === parseStr[0].slice(8)) {
+                    if (user === parseStr[0].slice(8)) {
                         const com = parseStr[parseStr.length - 1];
                         console.log(com);
                     }
-
                 }
             }
             break;
+        case 'date':
+            const date = new Date(command.split(' ')[1]);
+            for (const to of todo) {
+                if (to.indexOf(';') !== -1) {
+                    const parseStr = to.split(';');
+                    const comData = new Date(parseStr[1]);
+                    if (comData.getDay() >= date.getDay()) {
+                        console.log(to.slice(8));
+                    }
+                }
+            }
+            break;
+
         default:
             console.log('wrong command');
             break;
