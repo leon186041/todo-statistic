@@ -18,7 +18,7 @@ function processCommand(command) {
     for (const file of files) {
         todo.push(...getTodoText(file, regex));
     }
-    const splittedCommand = command.split(' ')[0]
+    const splittedCommand = command.split(' ')
     switch (splittedCommand[0]) {
         case 'exit':
             process.exit(0);
@@ -51,6 +51,9 @@ function processCommand(command) {
             if (splittedCommand[1] === 'importance') {
                 const importanceTodo = [...todo].sort(x => compareToExcMark(x.at(-1)))
                 importanceTodo.forEach((item) => console.log(item));
+            } else if (splittedCommand[1] === 'user') {
+                const userTodo = [...todo].sort(x => compareUser(x))
+                userTodo.forEach((item) => console.log(item));
             }
         default:
             console.log('wrong command');
@@ -62,9 +65,16 @@ function getTodoText(str, regex) {
     return str.match(regex);
 }
 
-function compareToExcMark(a) {
-    if (a === '!') return 1;
+function compareToExcMark(str) {
+    if (str === '!') return 1;
     return -1;
+}
+
+function compareUser(str) {
+    if (str.indexOf(';') === -1) {
+        return 1;
+    }
+    return 1;
 }
 
 // TODO you can do it!
